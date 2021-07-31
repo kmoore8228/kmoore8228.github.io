@@ -4,30 +4,27 @@
     <svg width="600" height="500"></svg>
     <script>
     
-        var svg = d3.select("svg"),
-            margin = 100,
-            width = svg.attr("width") - margin,
-            height = svg.attr("height") - margin;
-        
-        var xScale = d3.scaleOrdinal()
-            .domain(["Paint FGA", "Mid-range FGA", "3P FGA"])
-            .rangePoints([0, width]);
+    var margin = {top: 100, right: 100, bottom: 100, left: 100},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
-        var yScale = d3.scaleLinear().range ([height, 0]);
-    
-        var xAxis = d3.svg.axis()
-            .scale(xScale)
-            .orient("bottom");
+    var x = d3.scale.ordinal()
+    .domain(["Paint FGA", "Mid-range FGA", "3P FGA"])
+        .rangePoints([0, width]);
 
-        var svg = d3.select("body").append("svg")
-            .attr("width", width + margin + margin)
-            .attr("height", height + margin + margin)
-        .append("g")
-            .attr("transform", "translate(" + margin + "," + margin + ")");
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
 
-        svg.append("g")
-            .attr("class", "x axis")
-            .call(xAxis);
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .call(xAxis);
 
     </script>
 </body>
