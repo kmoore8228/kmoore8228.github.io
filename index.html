@@ -5,7 +5,7 @@
     <script>
     
         var svg = d3.select("svg"),
-            margin = 200,
+            margin = 100,
             width = svg.attr("width") - margin,
             height = svg.attr("height") - margin;
         
@@ -20,18 +20,14 @@
             .orient("bottom");
 
         var svg = d3.select("body").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", width + margin + margin)
+            .attr("height", height + margin + margin)
         .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin + "," + margin + ")");
 
         svg.append("g")
             .attr("class", "x axis")
             .call(xAxis);
-
-        d3.csv("data.csv", function(d){
-            console.log(d[0]);
-        });
 
     </script>
 </body>
