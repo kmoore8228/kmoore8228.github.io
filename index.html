@@ -10,7 +10,10 @@
         var margin = 50
         var width = 500
         var height = 400
-        var x = d3.scaleOrdinal().domain(["Paint FGA", "Mid-range FGA", "3P FGA"]).range(0,width)
+        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+        var xAxis = d3.axisBottom(x);
+        x.domain(["Paint FGA", "Mid-range FGA", "3P FGA"])
+
         var y = d3.scaleLinear().domain([0,42]).range([height,0])
 
         d3.select("svg")
@@ -26,8 +29,7 @@
             
         d3.select("svg").append("g")
             .attr("transform", "translate("+margin+","+(height+margin)+")")
-            .call(d3.axisBottom(x))
-        
+            .call(xAxis)        
     });
 
     </script>
