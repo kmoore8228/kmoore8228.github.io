@@ -4,9 +4,7 @@
     <svg width="600" height="500"></svg>
     <script>
 
-    d3.csv("nbaStatsSummary.csv", function(data) {
-        console.log(data[0])
-
+    d3.csv("https://kmoore8228.github.io/nbaStatsSummary.csv", function(data) {
         var margin = 50
         var width = 500
         var height = 400
@@ -14,14 +12,14 @@
         var xAxis = d3.axisBottom(x);
         x.domain(["Paint FGA", "Mid-range FGA", "3P FGA"])
 
-        var y = d3.scaleLinear().domain([0,42]).range([height,0])
+        var y = d3.scaleLinear().domain([0,100000]).range([height,0])
 
         d3.select("svg")
             .attr("width", width + 2*margin)
             .attr("height", height + 2*margin)
             .append("g")
             .attr("transform", "translate("+margin+","+margin+")")
-            .selectAll().data([5, 10, 15]).enter().append()
+            .selectAll().data(data[0].PaintFGA, data[0]['Mid-rangeFGA'], data[0]['3PFGA']).enter().append()
 
         d3.select("svg").append("g")
             .attr("transform", "translate("+margin+","+margin+")")
@@ -29,7 +27,18 @@
             
         d3.select("svg").append("g")
             .attr("transform", "translate("+margin+","+(height+margin)+")")
-            .call(xAxis)        
+            .call(xAxis)
+
+        d3.select("svg").append("g")
+            .selectAll(".bar")
+            .data([data[0].PaintFGA, data[0]['Mid-rangeFGA'], data[0]['3PFGA']])
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d, i) { return xScale(i); })
+            .attr("y", function(d) { return yScale(d); })
+            .attr("width", xScale.bandwidth())
+            .attr("height", function(d) { return height - yScale(d) });
+
     });
 
     </script>
