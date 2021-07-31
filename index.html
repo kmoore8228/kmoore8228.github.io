@@ -4,13 +4,13 @@
     <svg width="600" height="500"></svg>
     <script>
 
-    d3.csv("https://kmoore8228.github.io/nbaStatsSummary.csv", function(data) {
+    d3.csv("https://kmoore8228.github.io/97-98.csv", function(data) {
         var margin = 50
         var width = 500
         var height = 400
         var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
         var xAxis = d3.axisBottom(x);
-        x.domain(["Paint FGA", "Mid-range FGA", "3P FGA"])
+        x.domain(["PaintFGA", "Mid-rangeFGA", "3PFGA"])
 
         var y = d3.scaleLinear().domain([0,100000]).range([height,0])
 
@@ -19,7 +19,6 @@
             .attr("height", height + 2*margin)
             .append("g")
             .attr("transform", "translate("+margin+","+margin+")")
-            .selectAll().data(data[0].PaintFGA, data[0]['Mid-rangeFGA'], data[0]['3PFGA']).enter().append()
 
         d3.select("svg").append("g")
             .attr("transform", "translate("+margin+","+margin+")")
@@ -30,14 +29,13 @@
             .call(xAxis)
 
         d3.select("svg").append("g")
-            .selectAll(".bar")
-            .data([data[0].PaintFGA, data[0]['Mid-rangeFGA'], data[0]['3PFGA']])
+            .selectAll("rect")
+            .data(data)
             .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d, i) { return xScale(i); })
-            .attr("y", function(d) { return yScale(d); })
-            .attr("width", xScale.bandwidth())
-            .attr("height", function(d) { return height - yScale(d) });
+            .attr("x", function(d) { return x(d.stat); })
+            .attr("y", function(d) { return y(d.value); })
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) { return height - y(d) });
 
     });
 
