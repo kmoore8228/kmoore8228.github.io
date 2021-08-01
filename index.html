@@ -62,7 +62,8 @@
             .attr("height", function(d) { return height - y(d.value) })
             .attr("fill", function(d, i) { return colors[i] })
             .on("mouseover", function(d) {
-                tooltip.duration(200)
+                tooltip.transition()
+                    .duration(200)
                     .style("opacity", .9);
                 tooltip.html(d.stat + "<br/>"  + d.value)
                     .style("left", (d3.event.pageX) + "px")
