@@ -4,6 +4,9 @@
 <div>Number of shots by range in the <span id ="season"></span> season</div>
 <style>
     div.tooltip {
+    background: white;
+    border: 1px;
+    border-color: black;
     position: absolute;
     width: 50px;
     height: 50px;
@@ -17,73 +20,71 @@
 
     var season = "97-98";
     document.getElementById("season").innerHTML = season
-    var csv = d3.csv("https://kmoore8228.github.io/"+season+".csv");
-    csv.then(function(data) {
-        var margin = 50
-        var width = 500
-        var height = 400
-        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
-        var xAxis = d3.axisBottom(x).tickFormat(function (d) {
-            var mapper = {
-                "PaintFGA": "Paint FGA",
-                "Mid-rangeFGA": "Mid-range FGA",
-                "3PFGA": "3P FGA"
-            }
-            return mapper[d]
-            });
-        x.domain(data.map(function(d) { return d.stat; }));
+    var aggregateData = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
 
-        var y = d3.scaleLinear().domain([0,100000]).range([height,0]);
-
-        // Define the div for the tooltip
-        var tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
-        // format the data
-        data.forEach(function(d) {
-            d.value = +d.value;
+    var margin = 50
+    var width = 500
+    var height = 400
+    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+    var xAxis = d3.axisBottom(x).tickFormat(function (d) {
+        var mapper = {
+            "PaintFGA": "Paint FGA",
+            "Mid-rangeFGA": "Mid-range FGA",
+            "3PFGA": "3P FGA"
+        }
+        return mapper[d]
         });
+    x.domain(aggregateData.map(function(d) { return d.stat; }));
 
-        d3.select("svg")
-            .attr("width", width + 2*margin)
-            .attr("height", height + 2*margin)
-            .append("g")
-            .attr("transform", "translate("+margin+","+margin+")");
+    var y = d3.scaleLinear().domain([0,100000]).range([height,0]);
 
-        d3.select("svg").append("g")
-            .attr("transform", "translate("+margin+","+margin+")")
-            .call(d3.axisLeft(y));
-            
-        d3.select("svg").append("g")
-            .attr("transform", "translate("+margin+","+(height+margin)+")")
-            .call(xAxis);
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
-        var colors = ["green","red", "blue"]
-
-        d3.select("svg").append("g")
-            .selectAll("rect")
-            .data(data)
-            .enter().append("rect")
-            .attr("x", function(d) { return margin + x.bandwidth()/4 + x(d.stat); })
-            .attr("y", function(d) { return margin + y(d.value); })
-            .attr("width", x.bandwidth()/2)
-            .attr("height", function(d) { return height - y(d.value) })
-            .attr("fill", function(d, i) { return colors[i] })
-            .on("mouseover", function(d) {
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                tooltip.html(d.stat + "<br/>"  + d.value)
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
-                })
-            .on("mouseout", function(d) {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0)
-            });
+    // String -> number
+    aggregateData.forEach(function(d) {
+        d.value = +d.value;
     });
+
+    d3.select("svg")
+        .attr("width", width + 2*margin)
+        .attr("height", height + 2*margin)
+        .append("g")
+        .attr("transform", "translate("+margin+","+margin+")");
+
+    d3.select("svg").append("g")
+        .attr("transform", "translate("+margin+","+margin+")")
+        .call(d3.axisLeft(y));
+        
+    d3.select("svg").append("g")
+        .attr("transform", "translate("+margin+","+(height+margin)+")")
+        .call(xAxis);
+
+    var colors = ["green","red", "blue"]
+
+    d3.select("svg").append("g")
+        .selectAll("rect")
+        .data(aggregateData)
+        .enter().append("rect")
+        .attr("x", function(d) { return margin + x.bandwidth()/4 + x(d.stat); })
+        .attr("y", function(d) { return margin + y(d.value); })
+        .attr("width", x.bandwidth()/2)
+        .attr("height", function(d) { return height - y(d.value) })
+        .attr("fill", function(d, i) { return colors[i] })
+        .on("mouseover", function(d) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9);
+            tooltip.html(d.stat + "<br/>"  + d.value)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+            })
+        .on("mouseout", function(d) {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0)
+        });
 
     </script>
 </body>
