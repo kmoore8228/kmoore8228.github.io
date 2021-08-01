@@ -23,7 +23,6 @@ async function init() {
     document.getElementById("season").innerHTML = season
     const leaders = await d3.csv("https://kmoore8228.github.io/"+season+"Leaders.csv");
     const aggregateData = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
-    const leaders = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
 
     var margin = 50
     var width = 500
@@ -92,8 +91,6 @@ async function init() {
                     .data(function(x) { return x; }).enter()
                     .append("td")
                     .text(function(x) { return x; });
-
-                )
             })
         .on("mouseout", function(d) {
             tooltip.transition()
