@@ -40,7 +40,7 @@ async function init() {
 
     var y = d3.scaleLinear().domain([0,100000]).range([height,0]);
 
-    var tooltip = d3.select("body").append("div")
+    var tooltip = d3.select("body").append("table")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
@@ -79,7 +79,7 @@ async function init() {
                 .duration(200)
                 .style("opacity", .9);
             var newHtml = [];
-            newHtml.push('<tr>',
+            newHtml.push('<table><tr>',
                 '<td>Player</td>',
                 '<td>Made</td>',
                 '<td>Attempted</td>',
@@ -95,6 +95,7 @@ async function init() {
                         '</tr>')
                 }
             });
+            newHtml.push('</table>');
             tooltip.html(newHtml.join(""));
             tooltip
                 .style("left", d3.event.pageX + "px")
