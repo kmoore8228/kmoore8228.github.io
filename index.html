@@ -73,11 +73,6 @@ d3.select("svg").append("g")
 var colors = ["green","red", "blue"];
 
 async function init() {
-    // String -> number
-    aggregateData.forEach(function(d) {
-        d.value = +d.value;
-    });
-
     var csvData = await getData(slideNumber);
     renderBars(csvData.aggregateData, csvData.leaders);
 }
