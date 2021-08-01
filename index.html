@@ -101,11 +101,11 @@ async function init() {
         d.value = +d.value;
     });
 
-    var csvData = getData(slideNumber);
+    var csvData = await getData(slideNumber);
     renderBars(csvData.aggregateData, csvData.leaders);
 }
 
-function getData(slideNumber) {
+async function getData(slideNumber) {
     var season = seasons[slideNumber];
     document.getElementById("season").innerHTML = season
     const leaders = await d3.csv("https://kmoore8228.github.io/"+season+"Leaders.csv");
