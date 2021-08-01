@@ -22,7 +22,6 @@ async function init() {
     var season = "97-98";
     document.getElementById("season").innerHTML = season
     const leaders = await d3.csv("https://kmoore8228.github.io/"+season+"Leaders.csv");
-    var parsedLeaders = d3.csv.parseRows(leaders);
     const aggregateData = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
 
     var margin = 50
