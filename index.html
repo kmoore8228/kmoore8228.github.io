@@ -1,7 +1,5 @@
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
-<div class="h1">Evolution of the NBA shot diet</div>
-<div class="h2">Number of shots by range in the <span id ="season"></span> season</div>
 <style>
     table.tooltip {
     background: white;
@@ -13,16 +11,18 @@
     font: 12px sans-serif;
     pointer-events: none;
 }
-th, td {
+.th, .td {
   border: 1px solid black;
 }
-h1 {
+.h1 {
   font-size: 40px;
 }
-h2 {
+.h2 {
   font-size: 25px;
 }
 </style>
+<div class="h1">Evolution of the NBA shot diet</div>
+<div class="h2">Number of shots by range in the <span id ="season"></span> season</div>
 <body onload='init()'>
 <svg width="600" height="500"></svg>
 <script>
@@ -62,6 +62,7 @@ async function init() {
         .call(xAxis);
 
     var colors = ["green","red", "blue"]
+
 
     var slideNumber = 0;
     var seasons = ["97-98", "03-04", "08-09", "13-14", "18-19"];
