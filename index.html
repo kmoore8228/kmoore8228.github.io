@@ -17,6 +17,10 @@
   font-size: 50px;
   font-weight: bold;
 }
+.h2 {
+  font-size: 30px;
+  font-weight: bold;
+}
 .button {
     width: 200px;
     height: 50px;
@@ -30,26 +34,20 @@
 .p {
     line-height: 150%;
 }
-.chartTitle {
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration:underline;
-}
 </style>
 <div class="h1">Evolution of the NBA shot diet</div>
 <br>
-<div class="p">The first 3-pt FG was made in the NBA was by Chris Ford of the Boston Celtics on October 12, 1979. Early on, many saw the 3-pointer as a gimmick and 3-pt shot attempts remained fairly rare. Michael Jordan, widely considered the best shooting guard of all time, took a career high 297 3-pt attempts in the 1996-1997 season.</div>
+<div class="p">The first 3-pt FG was made by Chris Ford of the Boston Celtics on October 12, 1979. Early on, many saw the 3-pointer as a gimmick and 3-pt shot attempts remained fairly rare. Michael Jordan, widely considered the best shooting guard of all time, took a career high 297 3-pt attempts in the 1996-1997 season.</div>
 <div class="p">But as more and more players grow up with the 3 point line as integral part of the game and as analytics has revolutionized the sport of basketball, the 3-pt shot has been recognized as much more valuable and attempts have skyrocketed. James Harden attempted a whopping 1027 3-pt shots in the 2018-2019 season on his way to one of the best scoring seasons ever.</div>
 <div class="p">Use the buttons at the bottom of the page to see how the shot diet of the NBA has changed throughout this 3-point revolution. Mouse over each bar to see the league leaders in attempts at that range for that season</div>
 <br>
+<div class="h2">Number of shots by range in the <span id ="season"></span> season</div>
 <br>
 <body onload='init()'>
 <svg width="600" height="500"></svg>
 <script>
 var slideNumber = 0;
 var seasons = ["97-98", "03-04", "08-09", "13-14", "18-19"];
-var season = seasons[slideNumber];
-var getChartTitle = function(s) { return "Number of shots by range in the " + s + " season"; };
 var margin = 50
 var width = 1000
 var height = 1000
@@ -76,13 +74,6 @@ d3.select("svg")
     .append("g")
     .attr("transform", "translate("+margin+","+margin+")");
 
-d3.select("svg").append("text")
-    .attr("class", "chartTitle")
-    .attr("x", (width / 2))
-    .attr("y", 0 - (margin.top / 2))
-    .attr("text-anchor", "middle")
-    .text(getChartTitle(season));
-
 d3.select("svg").append("g")
     .attr("transform", "translate("+margin+","+margin+")")
     .call(d3.axisLeft(y));
@@ -99,7 +90,7 @@ async function init() {
 }
 
 async function getData(slideNumber) {
-    season = seasons[slideNumber];
+    var season = seasons[slideNumber];
     document.getElementById("season").innerHTML = season
     const leaders = await d3.csv("https://kmoore8228.github.io/"+season+"Leaders.csv");
     const aggregateData = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
@@ -239,9 +230,6 @@ function updateBars(aggregateData, leaders) {
         })
         .attr("y", function(d) { return margin + y(d.value) - 10; })
         .attr("height", function(d) { return height - y(d.value) });
-
-    d3.select("svg").selectAll(".chartTitle")
-        .text(getChartTitle(season));
 }
 
 async function goBack() {
