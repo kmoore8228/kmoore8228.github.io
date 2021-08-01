@@ -26,6 +26,11 @@
 
         var y = d3.scaleLinear().domain([0,100000]).range([height,0]);
 
+        // Define the div for the tooltip
+        var tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
         // format the data
         data.forEach(function(d) {
             d.value = +d.value;
@@ -55,7 +60,18 @@
             .attr("y", function(d) { return margin + y(d.value); })
             .attr("width", x.bandwidth()/2)
             .attr("height", function(d) { return height - y(d.value) })
-            .attr("fill", function(d, i) { return colors[i] });
+            .attr("fill", function(d, i) { return colors[i] })
+            .on("mouseover", function(d) {
+            tooltip.duration(200)
+                .style("opacity", .9);
+            tooltip	.html(d.stat + "<br/>"  + d.value)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+            })
+        .on("mouseout", function(d) {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
     });
 
     </script>
