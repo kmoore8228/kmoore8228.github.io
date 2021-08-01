@@ -85,7 +85,7 @@ async function init() {
                 '<td>Made</td>',
                 '<td>Attempted</td>',
                 '<td>% Made</td>',
-                '</tr>')
+                '</tr>');
             leaders.forEach(function(l) {
                 if (l.Zone == d.stat) {
                     newHtml.push('<tr>',
@@ -95,8 +95,9 @@ async function init() {
                         '<td>' + l['FG%'] + '</td>',
                         '</tr>')
                 }
-            })
-            tooltip.html(newHtml.join(""))
+            });
+            tooltip.html(newHtml.join(""));
+        })
         .on("mouseout", function(d) {
             tooltip.transition()
                 .duration(500)
