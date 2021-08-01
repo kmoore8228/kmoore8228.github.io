@@ -7,14 +7,21 @@
     <script>
 
     var season = "97-98";
-
+    document.getElementById("season").innerHTML = season
     var csv = d3.csv("https://kmoore8228.github.io/"+season+".csv");
     csv.then(function(data) {
         var margin = 50
         var width = 500
         var height = 400
         var x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
-        var xAxis = d3.axisBottom(x);
+        var xAxis = d3.axisBottom(x).tickFormat(function (d) {
+            var mapper = {
+                "PaintFGA": "Paint FGA",
+                "Mid-rangeFGA": "Mid-range FGA",
+                "3PFGA": "3P FGA"
+            }
+            return mapper[d]
+            });
         x.domain(data.map(function(d) { return d.stat; }));
 
         var y = d3.scaleLinear().domain([0,100000]).range([height,0]);
