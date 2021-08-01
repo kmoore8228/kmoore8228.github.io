@@ -1,10 +1,14 @@
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
+<div>Evolution of the NBA shot diet</div>
+<div>Number of shots by range in the <span id ="season"></span> season</div>
 <body>
     <svg width="600" height="500"></svg>
     <script>
 
-    var csv = d3.csv("https://kmoore8228.github.io/97-98.csv");
+    var season = "97-98";
+
+    var csv = d3.csv("https://kmoore8228.github.io/"+season+"97-98.csv");
     csv.then(function(data) {
         var margin = 50
         var width = 500
@@ -40,7 +44,7 @@
             .selectAll("rect")
             .data(data)
             .enter().append("rect")
-            .attr("x", function(d) { return margin + x(d.stat); })
+            .attr("x", function(d) { return margin + x.bandwidth()/4 + x(d.stat); })
             .attr("y", function(d) { return margin + y(d.value); })
             .attr("width", x.bandwidth()/2)
             .attr("height", function(d) { return height - y(d.value) })
