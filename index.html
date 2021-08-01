@@ -14,13 +14,13 @@
     font: 12px sans-serif;
 }
 </style>
-<body>
-    <svg width="600" height="500"></svg>
-    <script>
-
+<body onload='init()'>
+<svg width="600" height="500"></svg>
+<script>
+async function init() {
     var season = "97-98";
     document.getElementById("season").innerHTML = season
-    var aggregateData = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
+    const aggregateData = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
 
     var margin = 50
     var width = 500
@@ -85,7 +85,7 @@
                 .duration(500)
                 .style("opacity", 0)
         });
-
-    </script>
+}
+</script>
 </body>
 </html>
