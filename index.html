@@ -79,20 +79,24 @@ async function init() {
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9);
-            tooltip.append("table")
-                .selectAll("tr")
-                    .data(parsedLeaders.filter(function(x) {
-                        if (x.Zone == d.stat) {
-                            return x;
-                        }
-                    })).enter()
-                    .append("tr")
-
-                .selectAll("td")
-                    .data(function(x) { return x; }).enter()
-                    .append("td")
-                    .text(function(x) { return x; });
+            var newHtml = [];
+            newHtml.push('<tr>',
+                '<td>Player</td>',
+                '<td>Made</td>',
+                '<td>Attempted</td>',
+                '<td>% Made</td>',
+                '</tr>')
+            leaders.forEach(function(l) {
+                if (l.Zone == d.stat) {
+                    newHtml.push('<tr>',
+                        '<td>' + l.Player + '</td>',
+                        '<td>' + l.FGM + '</td>',
+                        '<td>' + l.FGA + '</td>',
+                        '<td>' + l['FG%'] + '</td>',
+                        '</tr>')
+                }
             })
+            tooltip.html(newHtml.join(""))
         .on("mouseout", function(d) {
             tooltip.transition()
                 .duration(500)
