@@ -38,8 +38,8 @@
             .selectAll("rect")
             .data(data)
             .enter().append("rect")
-            .attr("x", function(d) { return x(d.stat); })
-            .attr("y", function(d) { return y(d.value); })
+            .attr("x", function(d) { return margin + x(d.stat); })
+            .attr("y", function(d) { return margin + y(d.value); })
             .attr("width", x.bandwidth())
             .attr("height", function(d) { return height - y(d.value) });
     });
