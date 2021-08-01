@@ -12,6 +12,7 @@
     height: 50px;
     padding: 2px;
     font: 12px sans-serif;
+    pointer-events: none;
 }
 </style>
 <body onload='init()'>
@@ -20,7 +21,9 @@
 async function init() {
     var season = "97-98";
     document.getElementById("season").innerHTML = season
+    const leaders = await d3.csv("https://kmoore8228.github.io/"+season+"Leaders.csv");
     const aggregateData = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
+    const leaders = await d3.csv("https://kmoore8228.github.io/"+season+".csv");
 
     var margin = 50
     var width = 500
@@ -76,9 +79,21 @@ async function init() {
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9);
-            tooltip.html(d.stat + "<br/>"  + d.value)
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
+            tooltip.append("table")
+                .selectAll("tr")
+                    .data(leaders.filter(function(x) {
+                        if (x.Zone == d.stat) {
+                            return x;
+                        }
+                    })).enter()
+                    .append("tr")
+
+                .selectAll("td")
+                    .data(function(x) { return x; }).enter()
+                    .append("td")
+                    .text(function(x) { return x; });
+
+                )
             })
         .on("mouseout", function(d) {
             tooltip.transition()
