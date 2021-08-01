@@ -27,11 +27,13 @@
     border-color: black;
     border-radius: 10px;
     font: 20px sans-serif;
+    position: absolute;
+    bottom: 0px;
 }
 </style>
 <div class="h1">Evolution of the NBA shot diet</div>
 <div class="h2">Number of shots by range in the <span id ="season"></span> season</div>
-<body onload='init()'>
+<body onload='openSlide(0)'>
 <svg width="600" height="500"></svg>
 <script>
 var slideNumber = 0;
@@ -72,7 +74,7 @@ d3.select("svg").append("g")
 
 var colors = ["green","red", "blue"];
 
-async function init() {
+async function openSlide(slideNumber) {
     var csvData = await getData(slideNumber);
     renderBars(csvData.aggregateData, csvData.leaders);
 }
@@ -158,11 +160,13 @@ function renderBars(aggregateData, leaders) {
 }
 
 function goBack() {
-
+    slideNumber = slideNumber - 1
+    openSlide(slideNumber)
 }
 
 function goForward() {
-
+    slideNumber = slideNumber + 1
+    openSlide(slideNumber)
 }
 
 </script>
