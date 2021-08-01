@@ -42,9 +42,9 @@
             .enter().append("rect")
             .attr("x", function(d) { return margin + x(d.stat); })
             .attr("y", function(d) { return margin + y(d.value); })
-            .attr("width", x.bandwidth())
+            .attr("width", x.bandwidth()/2)
             .attr("height", function(d) { return height - y(d.value) })
-            .attr("color", function(d, i) { return colors[i] });
+            .attr("fill", function(d, i) { return colors[i] });
     });
 
     </script>
