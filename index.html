@@ -3,7 +3,6 @@
 <style>
     table.tooltip {
     background: white;
-    border: 5px;
     border-color: black;
     position: absolute;
     width: 300px;
@@ -99,8 +98,8 @@ async function getData(slideNumber) {
     else {
         document.getElementById("prev").disabled = false;
         document.getElementById("next").disabled = false;
-        document.getElementById("prev").innerHTML = seasons[slideNumber - 1];
-        document.getElementById("next").innerHTML = seasons[slideNumber + 1];;
+        document.getElementById("prev").innerHTML = "Go to " + seasons[slideNumber - 1];
+        document.getElementById("next").innerHTML = "Go to " + seasons[slideNumber + 1];;
     }
 
     // String -> number
@@ -218,8 +217,8 @@ function updateBars(aggregateData, leaders) {
         .text(function (d) {
             return d.value + " shots attempted";
         })
-        .attr("y", function(d) { return margin + y(d.value); })
-        .attr("height", function(d) { return height - y(d.value) - 10 });
+        .attr("y", function(d) { return margin + y(d.value) - 10; })
+        .attr("height", function(d) { return height - y(d.value) });
 }
 
 async function goBack() {
