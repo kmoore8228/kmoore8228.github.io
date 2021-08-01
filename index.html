@@ -209,7 +209,7 @@ function updateBars(aggregateData, leaders) {
         .attr("y", function(d) { return margin + y(d.value); })
         .attr("height", function(d) { return height - y(d.value) });
 
-    d3.selectAll("text")
+    d3.select("svg").selectAll("text")
         .data(aggregateData)
         .transition()
         .duration(1000)
