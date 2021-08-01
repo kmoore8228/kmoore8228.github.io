@@ -115,7 +115,7 @@ async function getData(slideNumber) {
 }
 
 function renderBars(aggregateData, leaders) {
-    let bars = svg.selectAll('.bar')
+    let bars = d3.select("svg").selectAll('.bar')
         .data(aggregateData)
         .enter()
         .append("g");
@@ -178,7 +178,8 @@ function updateBars(aggregateData, leaders) {
         .selectAll(".bar")
         .data(aggregateData);
 
-    d3.selectAll("rect")
+    d3.select("svg")
+        .selectAll("rect")
         .on("mouseover", function(d) {
             tooltip.transition()
                 .duration(200)
